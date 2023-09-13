@@ -28,11 +28,13 @@ app.layout = html.Div(
                         'x': data['Data Month'],
                         'y': data['Total Subscribers'],
                         'type': 'lines',
+                        'name': 'ACP Subscribers (Real data)'
                     },
                     {
                         'x': [data['Data Month'].min(), data['Data Month'].max()],
                         'y': [800, 800],
                         'type': 'lines',
+                        'name': 'Possible Subscribers (Fake data)',
                     },
                 ],
                 'layout': {'title': 'ACP Subscribers in Adams County, Washington'},
