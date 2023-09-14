@@ -32,7 +32,7 @@ app.layout = html.Div(
                 html.Img(src='assets/WSU-EXT-lockup-horz-rgb-12in.gif', className='header-logo'),
                 html.H1(children='ACP in Washington'),
                 html.P(
-                    children='How well is the ACP adopted in Washington?'
+                    children='How is ACP adoption going in Washington?'
                 ),
             ],
             className='header'
