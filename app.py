@@ -31,35 +31,46 @@ app.layout = html.Div(
         html.Div(
             children = [
                 html.Img(src='assets/WSU-EXT-lockup-horz-rgb-12in.gif', className='header-logo'),
-                html.H1(children='ACP in Washington'),
+                html.H1(children='ACP in Washington', className='header-title'),
                 html.P(
-                    children='How is ACP adoption going in Washington?'
+                    children='How is ACP adoption going in Washington?',
+                    className='header-description'
                 ),
             ],
             className='header'
         ),
         html.Div(
             children=[
-                html.Div(children='County'),
-                dcc.Dropdown(
-                    id='county-filter',
-                    options=[
-                        {'label': county.title(), 'value': county}
-                        for county in counties
+                html.Div(
+                    children=[
+                        html.Div(children='County', className='menu-title'),
+                        dcc.Dropdown(
+                            id='county-filter',
+                            options=[
+                                {'label': county.title(), 'value': county}
+                                for county in counties
+                            ],
+                            value='ADAMS COUNTY',
+                            searchable=True,
+                            clearable=False,
+                            className='dropdown'
+                        ),
                     ],
-                    value='ADAMS COUNTY',
-                    searchable=True,
-                    clearable=False,
                 )
-            ]
+            ],
+            className='menu'
         ),
         html.Div(
             children=[
-                dcc.Graph(
-                    id='subscriber-chart',
-                    config={'displayModeBar': False}
+                html.Div(
+                    dcc.Graph(
+                        id='subscriber-chart',
+                        config={'displayModeBar': False}
+                    ),
+                    className='card'
                 )
-            ]
+            ],
+            className='wrapper'
         )
     ]
 )
@@ -81,7 +92,10 @@ def update_charts(county):
                 'type': 'lines',
                 'hovertemplate': '%{y} Subscribers<extra></extra>'
             }
-        ]
+        ],
+        'layout': {
+            'title': {'text': ''}
+        }
     }
     return subscriber_chart_figure
 
