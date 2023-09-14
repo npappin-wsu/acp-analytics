@@ -1,14 +1,15 @@
 import os
 import pandas as pd
-from dash import Dash, dcc, html
+from dash import Dash, Input, Output, dcc, html
 
 file = os.path.join('data', 'waAcp.parquet')
 
 acpData = (
     pd.read_parquet(file)
-    .query("State == 'WA' and `County Name` == 'ADAMS COUNTY'")
     .sort_values(by="Data Month")
 )
+
+counties = acpData['County Name'].sort_values().unique()
 
 # Join Max reciepients into data!!
 
@@ -37,27 +38,52 @@ app.layout = html.Div(
             ],
             className='header'
         ),
-        dcc.Graph(
-            figure={
-                'data': [
-                    {
-                        'x': acpData['Data Month'],
-                        'y': acpData['Total Subscribers'],
-                        'type': 'lines',
-                        'name': 'ACP Subscribers (Real data)'
-                    },
-                    {
-                        'x': [acpData['Data Month'].min(), acpData['Data Month'].max()],
-                        'y': [800, 800],
-                        'type': 'lines',
-                        'name': 'Possible Subscribers (Fake data)',
-                    },
-                ],
-                'layout': {'title': 'ACP Subscribers in Adams County, Washington'},
-            },
+        html.Div(
+            children=[
+                html.Div(children='County'),
+                dcc.Dropdown(
+                    id='county-filter',
+                    options=[
+                        {'label': county.title(), 'value': county}
+                        for county in counties
+                    ],
+                    value='ADAMS COUNTY',
+                    searchable=True,
+                    clearable=False,
+                )
+            ]
+        ),
+        html.Div(
+            children=[
+                dcc.Graph(
+                    id='subscriber-chart',
+                    config={'displayModeBar': False}
+                )
+            ]
         )
     ]
 )
+
+@app.callback(
+    Output('subscriber-chart', 'figure'),
+    Input('county-filter', 'value'),
+)
+def update_charts(county):
+    print(county)
+    filteredAcpData = acpData.query(
+        "`County Name` == @county"
+    )
+    subscriber_chart_figure = {
+        'data': [
+            {
+                'x': filteredAcpData['Data Month'],
+                'y': filteredAcpData['Total Subscribers'],
+                'type': 'lines',
+                'hovertemplate': '%{y} Subscribers<extra></extra>'
+            }
+        ]
+    }
+    return subscriber_chart_figure
 
 if __name__ == '__main__':
     app.run_server(debug=True)
