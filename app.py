@@ -71,6 +71,40 @@ app.layout = html.Div(
                 )
             ],
             className='wrapper'
+        ),
+        html.Div(
+            children=[
+                html.P(
+                    children=[
+                        "This data was pulled from the ",
+                        html.A(
+                            children = 'USAC ACP Adoption Dataset',
+                            href = "https://www.usac.org/about/affordable-connectivity-program/acp-enrollment-and-claims-tracker/"
+                        ),
+                    ],
+                ),
+                html.P(
+                    children=[
+                        "Maximum Eligibility data is from the ",
+                        html.A(
+                            children="Education Super Highway ACP Dataset",
+                            href='https://www.educationsuperhighway.org/no-home-left-offline/acp-data/#dashboard'
+                        ),
+                        " Methodoolgy: ",
+                        html.A(
+                            children='here',
+                            href='https://www.educationsuperhighway.org/wp-content/uploads/NHLO-Report-2022_Data-Methodology.pdf'
+                        )
+                    ]
+                ),
+                html.P(
+                    children = [
+                        "Adoption data was at county level already, the eligibility data was ",
+                        "at city level and I aggregated them to county via crosswalk."
+                    ]
+                )
+            ],
+            className='methodology'
         )
     ]
 )
@@ -90,11 +124,20 @@ def update_charts(county):
                 'x': filteredAcpData['Data Month'],
                 'y': filteredAcpData['Total Subscribers'],
                 'type': 'lines',
-                'hovertemplate': '%{y} Subscribers<extra></extra>'
+                'hovertemplate': '%{y} Subscribers<extra></extra>',
+                'name': ''
+            },
+            {
+                'x': filteredAcpData['Data Month'],
+                'y': filteredAcpData['Eligible Households'],
+                'type': 'lines',
+                'hovertemplate': '%{y} Elligible<extra></extra>'
             }
         ],
         'layout': {
-            'title': {'text': ''}
+            'title': {'text': ''},
+            'showlegend': False,
+            'colorway': ["#AADC24", "#5BC3F5"]
         }
     }
     return subscriber_chart_figure

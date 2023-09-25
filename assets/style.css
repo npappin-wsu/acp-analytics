@@ -61,6 +61,12 @@ body {
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.18);
 }
 
+.methodology {
+    text-align: center;
+    margin: 40px auto;
+    max-width: 600px;
+}
+
 .Select-control {
     width: 256px;
     height: 48px;
@@ -78,5 +84,5 @@ body {
 .menu-title {
     margin-bottom: 6px;
     font-weight: bold;
-    color: #079A82;
+    color: #000000a0;
 }
