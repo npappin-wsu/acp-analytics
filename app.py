@@ -118,6 +118,7 @@ def update_charts(county):
     filteredAcpData = acpData.query(
         "`County Name` == @county"
     )
+    maxValue = max([filteredAcpData['Total Subscribers'].max(), filteredAcpData['Eligible Households'].max()])
     subscriber_chart_figure = {
         'data': [
             {
@@ -137,7 +138,8 @@ def update_charts(county):
         'layout': {
             'title': {'text': ''},
             'showlegend': False,
-            'colorway': ["#AADC24", "#5BC3F5"]
+            'colorway': ["#AADC24", "#5BC3F5"],
+            'yaxis': {'range': [1, maxValue*1.1]}
         }
     }
     return subscriber_chart_figure
