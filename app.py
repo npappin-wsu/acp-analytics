@@ -90,7 +90,7 @@ app.layout = html.Div(
                             children="Education Super Highway ACP Dataset",
                             href='https://www.educationsuperhighway.org/no-home-left-offline/acp-data/#dashboard'
                         ),
-                        " Methodoolgy: ",
+                        "Methodology: ",
                         html.A(
                             children='here',
                             href='https://www.educationsuperhighway.org/wp-content/uploads/NHLO-Report-2022_Data-Methodology.pdf'
