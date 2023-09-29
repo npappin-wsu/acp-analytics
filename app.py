@@ -90,7 +90,8 @@ app.layout = html.Div(
                             children="Education Super Highway ACP Dataset",
                             href='https://www.educationsuperhighway.org/no-home-left-offline/acp-data/#dashboard'
                         ),
-                        "Methodology: ",
+                        # Nick! Don't delete the space it is necessary for formatting! 
+                        " Methodology: ",
                         html.A(
                             children='here',
                             href='https://www.educationsuperhighway.org/wp-content/uploads/NHLO-Report-2022_Data-Methodology.pdf'
@@ -126,18 +127,26 @@ def update_charts(county):
                 'y': filteredAcpData['Total Subscribers'],
                 'type': 'lines',
                 'hovertemplate': '%{y} Subscribers<extra></extra>',
-                'name': ''
+                'name': 'Subscribed'
             },
             {
                 'x': filteredAcpData['Data Month'],
                 'y': filteredAcpData['Eligible Households'],
                 'type': 'lines',
-                'hovertemplate': '%{y} Elligible<extra></extra>'
+                'hovertemplate': '%{y} Elligible<extra></extra>',
+                'name': 'Elligible'
             }
         ],
         'layout': {
             'title': {'text': ''},
-            'showlegend': False,
+            'legend': {
+                'yanchor': 'top',
+                'y': 0.85,
+                'xanchor': 'left',
+                'x': 0.01,
+                'bordercolor': 'Black',
+                'borderwidth': 2
+            },
             'colorway': ["#AADC24", "#5BC3F5"],
             'yaxis': {'range': [1, maxValue*1.1]}
         }
