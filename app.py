@@ -85,7 +85,7 @@ app.layout = html.Div(
                 ),
                 html.P(
                     children=[
-                        "Maximum Eligibility data is from the ",
+                        "Maximum ESH Eligibility data is from the ",
                         html.A(
                             children="Education Super Highway ACP Dataset",
                             href='https://www.educationsuperhighway.org/no-home-left-offline/acp-data/#dashboard'
@@ -96,6 +96,13 @@ app.layout = html.Div(
                             children='here',
                             href='https://www.educationsuperhighway.org/wp-content/uploads/NHLO-Report-2022_Data-Methodology.pdf'
                         )
+                    ]
+                ),
+                html.P(
+                    children=[
+                        "WSBO Estimates provided by the Washington State Broadband Office ",
+                        "via email on 09-20-2023."
+                        
                     ]
                 ),
                 html.P(
@@ -119,7 +126,8 @@ def update_charts(county):
     filteredAcpData = acpData.query(
         "`County Name` == @county"
     )
-    maxValue = max([filteredAcpData['Total Subscribers'].max(), filteredAcpData['Eligible Households'].max()])
+    print(filteredAcpData.info())
+    maxValue = max([filteredAcpData['Total Subscribers'].max(), filteredAcpData['Eligible Households'].max(), filteredAcpData['WSBO_Eligible'].max()])
     subscriber_chart_figure = {
         'data': [
             {
@@ -133,8 +141,15 @@ def update_charts(county):
                 'x': filteredAcpData['Data Month'],
                 'y': filteredAcpData['Eligible Households'],
                 'type': 'lines',
-                'hovertemplate': '%{y} Elligible<extra></extra>',
-                'name': 'Elligible'
+                'hovertemplate': '%{y} ESH Estimate<extra></extra>',
+                'name': 'ESH Eligible'
+            },
+            {
+                'x': filteredAcpData['Data Month'],
+                'y': filteredAcpData['WSBO_Eligible'],
+                'type': 'lines',
+                'hovertemplate': '%{y} WSBO Estimate<extra></extra>',
+                'name': 'WSBO Eligible'
             }
         ],
         'layout': {
@@ -147,11 +162,11 @@ def update_charts(county):
                 'bordercolor': 'Black',
                 'borderwidth': 2
             },
-            'colorway': ["#AADC24", "#5BC3F5"],
+            'colorway': ["#0072b2", "#d55e00", "#009e73"],
             'yaxis': {'range': [1, maxValue*1.1]}
         }
     }
     return subscriber_chart_figure
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
