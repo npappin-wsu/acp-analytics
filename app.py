@@ -85,6 +85,15 @@ app.layout = html.Div(
                 ),
                 html.P(
                     children=[
+                        "Data used in these visualizations can be found here: ",
+                        html.A(
+                            children = 'waACP.xlsx',
+                            href = "assets/waAcp.xlsx"
+                        ),
+                    ],
+                ),
+                html.P(
+                    children=[
                         "Maximum ESH Eligibility data is from the ",
                         html.A(
                             children="Education Super Highway ACP Dataset",
@@ -126,7 +135,7 @@ def update_charts(county):
     filteredAcpData = acpData.query(
         "`County Name` == @county"
     )
-    print(filteredAcpData.info())
+    # print(filteredAcpData.info())
     maxValue = max([filteredAcpData['Total Subscribers'].max(), filteredAcpData['Eligible Households'].max(), filteredAcpData['WSBO_Eligible'].max()])
     subscriber_chart_figure = {
         'data': [
